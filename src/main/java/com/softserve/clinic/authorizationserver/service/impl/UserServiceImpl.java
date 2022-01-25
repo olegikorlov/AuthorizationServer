@@ -33,8 +33,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(User user) {
-        Role role = roleRepository.findByName("ROLE_PATIENT");
+    public User registerUser(User user) {
+        return register(user, "ROLE_PATIENT");
+    }
+
+    @Override
+    public User registerDoctor(User user) {
+        return register(user, "ROLE_DOCTOR");
+    }
+
+    private User register(User user, String roleName) {
+        Role role = roleRepository.findByName(roleName);
         user.getRoles().add(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setStatus(Status.ACTIVE);

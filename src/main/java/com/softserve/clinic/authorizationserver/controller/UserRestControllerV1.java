@@ -3,6 +3,7 @@ package com.softserve.clinic.authorizationserver.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.softserve.clinic.authorizationserver.dto.UserDto;
 import com.softserve.clinic.authorizationserver.model.User;
+import com.softserve.clinic.authorizationserver.security.jwt.JwtAuthenticationException;
 import com.softserve.clinic.authorizationserver.security.jwt.JwtUser;
 import com.softserve.clinic.authorizationserver.service.UserService;
 import lombok.extern.slf4j.Slf4j;

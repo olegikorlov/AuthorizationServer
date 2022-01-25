@@ -140,6 +140,9 @@ databaseChangeLog:
             tableName: roles
             columns:
               - column:
+                  name: id
+                  value: eb55a2cc-06a6-4bd5-a8b9-8038d951646c
+              - column:
                   name: name
                   value: ROLE_ADMIN
         - insert:
@@ -163,8 +166,25 @@ databaseChangeLog:
             tableName: users
             columns:
               - column:
+                  name: id
+                  value: ff2bb6dd-aad5-4ae5-b17c-d10764bfff07
+              - column:
                   name: username
-                  value: info@olegorlov.com
+                  value: admin@admin.com
               - column:
                   name: password
                   value: $2a$12$fCFf4kz.uubXY8Dm7vEQ9OzYxS/6DAKE8/OgrneDnUgxHhKjekDpu
+
+  - changeSet:
+      id: 1643084153886-9
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: ff2bb6dd-aad5-4ae5-b17c-d10764bfff07
+              - column:
+                  name: role_id
+                  value: eb55a2cc-06a6-4bd5-a8b9-8038d951646c

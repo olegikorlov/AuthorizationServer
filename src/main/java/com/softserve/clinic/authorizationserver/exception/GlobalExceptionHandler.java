@@ -34,11 +34,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return getResponseEntity(request, exception, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDto> internalServerErrorHandler(HttpServletRequest request, Exception exception) {
-        return getResponseEntity(request, exception, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorDto> handleBadCredentials(HttpServletRequest request, BadCredentialsException exception) {
         return getResponseEntity(request, exception, HttpStatus.UNAUTHORIZED);
@@ -49,7 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return getResponseEntity(request, exception, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler({ ConstraintViolationException.class })
+    @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<String> handleError1(HttpServletRequest req, Exception ex) {
 
         String msg = null;
@@ -62,7 +57,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(msg, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler({ DataIntegrityViolationException.class })
+    @ExceptionHandler({DataIntegrityViolationException.class})
     public ResponseEntity<ErrorDto> handleError2(HttpServletRequest request, Exception ex) {
         String msg = ex.getMessage();
         if (ex.getCause().getCause() instanceof SQLException) {
@@ -88,11 +83,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String path = ((ServletWebRequest) request).getRequest().getRequestURL().toString();
         log.error("Exception raised = {} :: URL = {}", message, path);
         ErrorDto errorDto = ErrorDto.builder()
-                    .status(status.value())
-                    .error(status.getReasonPhrase())
-                    .message(message)
-                    .path(path)
-                    .build();
+                .status(status.value())
+                .error(status.getReasonPhrase())
+                .message(message)
+                .path(path)
+                .build();
         return new ResponseEntity<>(errorDto, headers, status);
     }
 
@@ -107,6 +102,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         });
         return new ResponseEntity<>(errors, status);
     }
+
+/*
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDto> internalServerErrorHandler(HttpServletRequest request, Exception exception) {
+        return getResponseEntity(request, exception, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+*/
 
     private ResponseEntity<ErrorDto> getResponseEntity(HttpServletRequest request, Exception exception, HttpStatus httpStatus) {
         log.error("Exception raised = {} :: URL = {}", exception.getMessage(), request.getRequestURL());

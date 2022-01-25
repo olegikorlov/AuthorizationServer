@@ -1,13 +1,11 @@
 package com.softserve.clinic.authorizationserver.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.softserve.clinic.authorizationserver.dto.AuthenticationRequestDto;
 import com.softserve.clinic.authorizationserver.dto.UserDto;
 import com.softserve.clinic.authorizationserver.model.User;
 import com.softserve.clinic.authorizationserver.security.jwt.JwtTokenProvider;
 import com.softserve.clinic.authorizationserver.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -53,7 +51,7 @@ public class AuthenticationRestControllerV1 {
 
     @PostMapping(value = "/register")
     public ResponseEntity<Map<String, String>> saveUser(@RequestBody @Validated(UserDto.New.class) UserDto userDto) {
-        User register = userService.register(userDto.toUser());
+        User register = userService.registerUser(userDto.toUser());
         String username = userDto.getUsername();
         return getMapResponseEntity(register, username, userDto.getPassword());
     }

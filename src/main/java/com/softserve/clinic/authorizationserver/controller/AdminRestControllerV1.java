@@ -1,15 +1,15 @@
 package com.softserve.clinic.authorizationserver.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.softserve.clinic.authorizationserver.dto.AdminUserDto;
+import com.softserve.clinic.authorizationserver.dto.UserDto;
 import com.softserve.clinic.authorizationserver.model.User;
 import com.softserve.clinic.authorizationserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -38,5 +38,12 @@ public class AdminRestControllerV1 {
         AdminUserDto result = AdminUserDto.fromUser(user);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @JsonView(UserDto.AdminDetails.class)
+    @PostMapping(value = "/doctors")
+    public ResponseEntity<?> saveUser(@RequestBody @Validated(value = {UserDto.New.class, UserDto.Admin.class}) UserDto userDto) {
+        User register = userService.registerDoctor(userDto.toUser());
+        return new ResponseEntity<>(UserDto.fromUser(register), HttpStatus.OK);
     }
 }

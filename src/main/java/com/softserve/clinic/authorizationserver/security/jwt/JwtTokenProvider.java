@@ -53,7 +53,7 @@ public class JwtTokenProvider {
 
     public String createToken(String username, List<Role> roles, UUID userId) {
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("roles", getRoleNames(roles));
+        claims.put("authorities", getRoleNames(roles));
         claims.put("userId", userId);
 
         Date now = new Date();
@@ -93,9 +93,9 @@ public class JwtTokenProvider {
         }
     }
 
-    private List<String> getRoleNames(List<Role> userRoles) {
+    private String getRoleNames(List<Role> userRoles) {
         return userRoles.stream()
                 .map(Role::getName)
-                .collect(Collectors.toList());
+                .collect(Collectors.joining(","));
     }
 }
