@@ -1,9 +1,8 @@
 package com.softserve.clinic.authorizationserver.security.jwt;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -16,13 +15,10 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:info@olegorlov.com">Oleg Orlov</a>
  */
+@RequiredArgsConstructor
 public class JwtTokenFilter extends GenericFilterBean {
 
-    private JwtTokenProvider jwtTokenProvider;
-
-    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

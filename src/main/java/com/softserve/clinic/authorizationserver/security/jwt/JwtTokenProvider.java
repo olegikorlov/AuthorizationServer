@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -50,9 +51,10 @@ public class JwtTokenProvider {
         secret = Base64.getEncoder().encodeToString(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String createToken(String username, List<Role> roles) {
+    public String createToken(String username, List<Role> roles, UUID userId) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", getRoleNames(roles));
+        claims.put("userId", userId);
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);

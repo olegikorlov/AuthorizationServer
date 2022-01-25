@@ -3,6 +3,8 @@ package com.softserve.clinic.authorizationserver.security.jwt;
 import com.softserve.clinic.authorizationserver.model.Role;
 import com.softserve.clinic.authorizationserver.model.Status;
 import com.softserve.clinic.authorizationserver.model.User;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -12,18 +14,13 @@ import java.util.stream.Collectors;
 /**
  * @author <a href="mailto:info@olegorlov.com">Oleg Orlov</a>
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JwtUserFactory {
-
-    private JwtUserFactory() {
-    }
 
     public static JwtUser create(User user) {
         return new JwtUser(
                 user.getId(),
                 user.getUsername(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
                 user.getPassword(),
                 user.getStatus().equals(Status.ACTIVE),
                 user.getUpdated(),
@@ -36,4 +33,5 @@ public final class JwtUserFactory {
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
     }
+
 }
