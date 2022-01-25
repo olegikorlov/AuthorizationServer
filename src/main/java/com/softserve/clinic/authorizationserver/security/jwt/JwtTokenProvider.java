@@ -28,13 +28,11 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
+    private final UserDetailsService userDetailsService;
     @Value("${jwt.token.secret}")
     private String secret;
-
     @Value("${jwt.token.expired}")
     private long validityInMilliseconds;
-
-    private final UserDetailsService userDetailsService;
 
     @Autowired
     public JwtTokenProvider(@Lazy UserDetailsService userDetailsService) {

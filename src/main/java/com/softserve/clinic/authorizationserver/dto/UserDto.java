@@ -24,44 +24,18 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto implements Serializable {
 
-    public interface New {
-    }
-
-    public interface Exist {
-    }
-
-    public interface Details {
-    }
-
-    public interface AdminDetails {
-    }
-
-    public interface Admin {
-    }
-
     @Null(groups = {New.class})
     @NotNull(groups = {Exist.class})
     @JsonView({Details.class, AdminDetails.class})
     private UUID id;
-
     @NotNull(groups = {New.class})
     @JsonView({Details.class, AdminDetails.class})
     private String username;
-
     @NotNull(groups = {New.class})
     @JsonView({AdminDetails.class})
     private String password;
-
     @JsonView({AdminDetails.class})
     private List<String> roles = new ArrayList<>();
-
-    public User toUser() {
-        User user = new User();
-        user.setId(id);
-        user.setUsername(username);
-        user.setPassword(password);
-        return user;
-    }
 
     public static UserDto fromUser(User user) {
         UserDto userDto = new UserDto();
@@ -72,6 +46,26 @@ public class UserDto implements Serializable {
                 .map(Role::getName)
                 .forEach(roleName -> userDto.getRoles().add(roleName));
         return userDto;
+    }
+
+    public User toUser() {
+        User user = new User();
+        user.setId(id);
+        user.setUsername(username);
+        user.setPassword(password);
+        return user;
+    }
+
+    public interface New {
+    }
+
+    public interface Exist {
+    }
+
+    public interface Details {
+    }
+
+    public interface AdminDetails {
     }
 
 }

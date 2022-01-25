@@ -26,7 +26,7 @@ import java.util.Map;
  * @author <a href="mailto:info@olegorlov.com">Oleg Orlov</a>
  */
 @RestController
-@RequestMapping(value = "/api/v1/auth/")
+@RequestMapping(value = "/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationRestControllerV1 {
 
@@ -34,7 +34,7 @@ public class AuthenticationRestControllerV1 {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody @Valid AuthenticationRequestDto requestDto) {
         try {
             String username = requestDto.getUsername();
@@ -50,7 +50,7 @@ public class AuthenticationRestControllerV1 {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Map<String, String>> saveUser(@RequestBody @Validated(UserDto.New.class) UserDto userDto) {
+    public ResponseEntity<Map<String, String>> registerUser(@RequestBody @Validated(UserDto.New.class) UserDto userDto) {
         User register = userService.registerUser(userDto.toUser());
         String username = userDto.getUsername();
         return getMapResponseEntity(register, username, userDto.getPassword());

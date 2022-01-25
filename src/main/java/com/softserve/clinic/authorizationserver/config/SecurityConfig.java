@@ -1,12 +1,12 @@
 package com.softserve.clinic.authorizationserver.config;
 
+import com.softserve.clinic.authorizationserver.exception.FilterChainExceptionHandler;
 import com.softserve.clinic.authorizationserver.security.jwt.JwtConfigurer;
 import com.softserve.clinic.authorizationserver.security.jwt.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,20 +15,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 /**
  * @author <a href="mailto:info@olegorlov.com">Oleg Orlov</a>
  */
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String ADMIN_ENDPOINT = "/api/v1/admin/**";
-    public static final String LOGIN_ENDPOINT = "/api/v1/auth/login";
+    public static final String AUTH_ENDPOINT = "/api/v1/auth/**";
 
     private final JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+    private final FilterChainExceptionHandler filterChainExceptionHandler;
 
     @Bean
     @Override
@@ -37,19 +33,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT, "/api/v1/auth/register")
-                .permitAll()
+    protected void configure(HttpSecurity http) throws Exception {
 
+        // No session will be created or used by spring security
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.httpBasic().disable();
+
+        // Disable CSRF (cross site request forgery)
+        http.csrf().disable();
+
+        http.authorizeRequests()
+                .antMatchers(AUTH_ENDPOINT).permitAll()
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
+                .anyRequest().authenticated();
+
+        // Apply JWT
+        http.apply(new JwtConfigurer(jwtTokenProvider, filterChainExceptionHandler));
+
     }
 }
