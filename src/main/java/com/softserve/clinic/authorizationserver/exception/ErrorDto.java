@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class ErrorDto implements Serializable {
 
     @Builder.Default
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     LocalDateTime timestamp = LocalDateTime.now();
 
     Integer status;

@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 /**
  * @author <a href="mailto:info@olegorlov.com">Oleg Orlov</a>
@@ -25,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final FilterChainExceptionHandler filterChainExceptionHandler;
+    private final AccessDeniedHandler accessDeniedHandler;
 
     @Bean
     @Override
@@ -50,6 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Apply JWT
         http.apply(new JwtConfigurer(jwtTokenProvider, filterChainExceptionHandler));
+
+        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
     }
 }

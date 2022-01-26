@@ -7,7 +7,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -44,16 +46,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return getResponseEntity(request, exception, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorDto> handleAccessDeniedException(HttpServletRequest request, AccessDeniedException exception) {
+        return getResponseEntity(request, exception, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorDto> handleAuthenticationException(HttpServletRequest request, AuthenticationException exception) {
+        return getResponseEntity(request, exception, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<String> handleError1(HttpServletRequest req, Exception ex) {
-
         String msg = null;
         if (ex.getCause().getCause() instanceof ConstraintViolationException) {
             ConstraintViolationException e = (ConstraintViolationException) ex.getCause().getCause();
             Optional<ConstraintViolation<?>> optional = e.getConstraintViolations().stream().findFirst();
             msg = optional.isPresent() ? optional.get().getMessageTemplate() : ex.getMessage();
         }
-
         return new ResponseEntity<>(msg, HttpStatus.CONFLICT);
     }
 
@@ -103,15 +113,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, status);
     }
 
-/*
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDto> internalServerErrorHandler(HttpServletRequest request, Exception exception) {
         return getResponseEntity(request, exception, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-*/
 
     private ResponseEntity<ErrorDto> getResponseEntity(HttpServletRequest request, Exception exception, HttpStatus httpStatus) {
-        log.error("Exception raised = {} :: URL = {}", exception.getMessage(), request.getRequestURL());
+        log.warn("Exception raised = {} :: URL = {}", exception.getMessage(), request.getRequestURL());
         ErrorDto errorDto = ErrorDto.builder()
                 .status(httpStatus.value())
                 .error(httpStatus.getReasonPhrase())
