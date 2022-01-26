@@ -14,8 +14,7 @@ import java.util.List;
 @Table(
         name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(name = "users_username_key", columnNames = "username"),
-                @UniqueConstraint(name = "users_email_key", columnNames = "email")
+                @UniqueConstraint(name = "users_username_key", columnNames = "username")
         }
 )
 @Getter
@@ -24,15 +23,6 @@ public class User extends BaseEntity {
 
     @Column(name = "username", nullable = false)
     private String username;
-
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Column(name = "email", nullable = false)
-    private String email;
 
     @Column(name = "password", nullable = false)
     private String password;

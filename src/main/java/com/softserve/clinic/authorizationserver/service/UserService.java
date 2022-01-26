@@ -10,7 +10,9 @@ import java.util.UUID;
  */
 public interface UserService {
 
-    User register(User user);
+    User registerUser(User user);
+
+    User registerDoctor(User user);
 
     List<User> getAll();
 
