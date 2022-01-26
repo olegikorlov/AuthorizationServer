@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
@@ -29,6 +30,7 @@ public class UserDto implements Serializable {
     @JsonView({Details.class, AdminDetails.class})
     private UUID id;
     @NotNull(groups = {New.class})
+    @Email(message = "Email should be valid")
     @JsonView({Details.class, AdminDetails.class})
     private String username;
     @NotNull(groups = {New.class})
