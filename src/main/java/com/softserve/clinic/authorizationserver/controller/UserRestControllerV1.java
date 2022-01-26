@@ -25,7 +25,7 @@ public class UserRestControllerV1 {
     private final UserService userService;
 
     @JsonView(UserDto.Details.class)
-    @GetMapping(value = "/")
+    @GetMapping(value = "/me")
     public ResponseEntity<UserDto> getUserById(Authentication authentication) {
         User user = userService.findByUsername(authentication.getName());
         if (user == null) {
