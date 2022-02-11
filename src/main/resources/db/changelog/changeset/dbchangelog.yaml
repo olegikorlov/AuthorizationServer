@@ -319,3 +319,16 @@ databaseChangeLog:
                   name: role_id
                   value: 75b66208-dfb0-43c0-97f5-d8ad65145725
 
+  - changeSet:
+      id: 1643084153886-9
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: ff2bb6dd-aad5-4ae5-b17c-d10764bfff07
+              - column:
+                  name: role_id
+                  value: eb55a2cc-06a6-4bd5-a8b9-8038d951646c
