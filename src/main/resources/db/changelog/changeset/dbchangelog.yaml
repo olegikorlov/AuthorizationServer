@@ -149,11 +149,17 @@ databaseChangeLog:
             tableName: roles
             columns:
               - column:
+                  name: id
+                  value: 2168865f-ffd5-4ade-a5ce-f3929b2747c4
+              - column:
                   name: name
                   value: ROLE_DOCTOR
         - insert:
             tableName: roles
             columns:
+              - column:
+                  name: id
+                  value: 75b66208-dfb0-43c0-97f5-d8ad65145725
               - column:
                   name: name
                   value: ROLE_PATIENT
@@ -174,6 +180,144 @@ databaseChangeLog:
               - column:
                   name: password
                   value: $2a$12$fCFf4kz.uubXY8Dm7vEQ9OzYxS/6DAKE8/OgrneDnUgxHhKjekDpu
+
+  - changeSet:
+      id: 1643084153886-9
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: ff2bb6dd-aad5-4ae5-b17c-d10764bfff07
+              - column:
+                  name: role_id
+                  value: eb55a2cc-06a6-4bd5-a8b9-8038d951646c
+
+  - changeSet:
+      id: 1643084153886-10
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 78fe3030-6a76-4f0d-a633-4a05be189a99
+              - column:
+                  name: username
+                  value: doctor1@doctor.com
+              - column:
+                  name: password
+                  value: $2a$12$fCFf4kz.uubXY8Dm7vEQ9OzYxS/6DAKE8/OgrneDnUgxHhKjekDpu
+
+  - changeSet:
+      id: 1643084153886-11
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: 78fe3030-6a76-4f0d-a633-4a05be189a99
+              - column:
+                  name: role_id
+                  value: 2168865f-ffd5-4ade-a5ce-f3929b2747c4
+
+  - changeSet:
+      id: 1643084153886-12
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 20d82a89-8e54-435c-9f55-662993026fe2
+              - column:
+                  name: username
+                  value: doctor2@doctor.com
+              - column:
+                  name: password
+                  value: $2a$12$fCFf4kz.uubXY8Dm7vEQ9OzYxS/6DAKE8/OgrneDnUgxHhKjekDpu
+
+  - changeSet:
+      id: 1643084153886-13
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: 20d82a89-8e54-435c-9f55-662993026fe2
+              - column:
+                  name: role_id
+                  value: 2168865f-ffd5-4ade-a5ce-f3929b2747c4
+
+  - changeSet:
+      id: 1643084153886-14
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: a8c3788f-a9b2-4d99-aef2-e8e747fe5a9d
+              - column:
+                  name: username
+                  value: doctor3@doctor.com
+              - column:
+                  name: password
+                  value: $2a$12$fCFf4kz.uubXY8Dm7vEQ9OzYxS/6DAKE8/OgrneDnUgxHhKjekDpu
+
+  - changeSet:
+      id: 1643084153886-15
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: a8c3788f-a9b2-4d99-aef2-e8e747fe5a9d
+              - column:
+                  name: role_id
+                  value: 2168865f-ffd5-4ade-a5ce-f3929b2747c4
+
+  - changeSet:
+      id: 1643084153886-16
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 131e96a2-8868-4bb4-bd71-50baeaca8d7b
+              - column:
+                  name: username
+                  value: user@user.com
+              - column:
+                  name: password
+                  value: $2a$12$fCFf4kz.uubXY8Dm7vEQ9OzYxS/6DAKE8/OgrneDnUgxHhKjekDpu
+
+  - changeSet:
+      id: 1643084153886-17
+      author: Oleg Orlov
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: 131e96a2-8868-4bb4-bd71-50baeaca8d7b
+              - column:
+                  name: role_id
+                  value: 75b66208-dfb0-43c0-97f5-d8ad65145725
 
   - changeSet:
       id: 1643084153886-9

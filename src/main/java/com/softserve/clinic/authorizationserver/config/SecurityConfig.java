@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable();
 
         // Disable CSRF (cross site request forgery)
-        http.csrf().disable();
+        http.cors().and().csrf().disable();
+
 
         http.authorizeRequests()
                 .antMatchers(AUTH_ENDPOINT).permitAll()
